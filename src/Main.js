@@ -21,8 +21,6 @@ function Main() {
                 <PrivateRoute path="/user/edit/:userId" component={EditProfile}/>
                 <PrivateRoute path="/user/:userId" component={Profile} />
                 <Route path="/users" component={Users}/>
-               
-                
             </Switch>
         </div>
     )
