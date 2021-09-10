@@ -6,6 +6,8 @@ import Signup from './user/Signup';
 import Signin from './user/Signin';
 import Profile from './user/Profile'
 import Users from './user/Users';
+import EditProfile from './user/EditProfile';
+import PrivateRoute from './auth/PrivateRoute';
 
 
 function Main() {
@@ -16,8 +18,11 @@ function Main() {
                 <Route exact path="/" component={Home} />
                 <Route path="/signup" component={Signup} />
                 <Route path="/signin" component={Signin} /> 
+                <Route path="/user/edit/:userId" component={EditProfile}/>
                 <Route path="/user/:userId" component={Profile} />
                 <Route path="/users" component={Users}/>
+               
+                
             </Switch>
         </div>
     )

@@ -48,9 +48,9 @@ function Signup() {
             {info.open ? 
           (<div className="alert alert-success">New account created.Please {" "}<Link to="/signin">Sign in.</Link></div>)
                :<></> }
-           <form>
+          <form>
                 <div className="form-group">
-                <label className="text-muted">Name</label>
+                 <label className="text-muted">Name</label>
                 <input onChange={(e)=>handleChange("name",e)} type="text" className="form-control" value={info.name} /> 
                 </div>
 
