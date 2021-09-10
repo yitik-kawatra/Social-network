@@ -18,8 +18,8 @@ function Main() {
                 <Route exact path="/" component={Home} />
                 <Route path="/signup" component={Signup} />
                 <Route path="/signin" component={Signin} /> 
-                <Route path="/user/edit/:userId" component={EditProfile}/>
-                <Route path="/user/:userId" component={Profile} />
+                <PrivateRoute path="/user/edit/:userId" component={EditProfile}/>
+                <PrivateRoute path="/user/:userId" component={Profile} />
                 <Route path="/users" component={Users}/>
                
                 
