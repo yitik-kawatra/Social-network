@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react';
+import {Link} from 'react-router-dom'
 
 function Signup() {
     const [info, setInfo] = useState({name:"",email:"",password:"",error:"",open:false})
@@ -45,7 +46,7 @@ function Signup() {
                :<></> }
 
             {info.open ? 
-          (<div className="alert alert-success">New account created.Please Sign in.</div>)
+          (<div className="alert alert-success">New account created.Please {" "}<Link to="/signin">Sign in.</Link></div>)
                :<></> }
            <form>
                 <div className="form-group">

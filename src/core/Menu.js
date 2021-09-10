@@ -13,21 +13,34 @@ export const isAuthenticated = () => {
   }
 };
 
+export const  signout = async () => {
+  if (typeof window !== "undefined") {
+    localStorage.removeItem("jwt");
+  }
+  let res = await fetch("http://localhost:5500/signout", {
+    method: "GET",
+  });
+  return res.json();
+};
+
 function Menu({ history }) {
   const isActive = (history, path) => {
     if (history.location.pathname === path) return { color: "#ff9900" };
   };
 
-  const signout = async () => {
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("jwt");
-    }
-    let res = await fetch("http://localhost:5500/signout", {
-      method: "GET",
-    });
-    history.push("/");
-    return res.json();
-  };
+  const signot=()=>{
+    signout().then(data=>{
+      if(data.error){
+        console.log(data.error);
+      }
+      else{
+        history.push('/');
+      }
+      
+    }).catch(error=>{
+      console.log(error);
+    })
+  }
 
   return (
     <div>
@@ -35,6 +48,11 @@ function Menu({ history }) {
         <li className="nav-item">
           <Link className="nav-link" style={isActive(history, "/")} to="/">
             Home
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" style={isActive(history, "/users")} to="/users">
+            Users
           </Link>
         </li>
 
@@ -65,7 +83,7 @@ function Menu({ history }) {
           <>
             <li className="nav-item">
               <Link
-                onClick={signout}
+                onClick={signot}
                 style={isActive(history, "/signout")}
                 className="nav-link"
                 to="/signout"
@@ -74,10 +92,11 @@ function Menu({ history }) {
               </Link>
             </li>
             <li className="nav-item">
-              <Link
+              <Link to={`/user/${isAuthenticated().user._id}`}
                 className="nav-link"
+                style={isActive(history, `/user/${isAuthenticated().user._id}`)}
               >
-                {isAuthenticated().user.name}
+                {`${isAuthenticated().user.name}'s profile`}
               </Link>
             </li>
           </>
