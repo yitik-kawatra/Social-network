@@ -3,22 +3,21 @@ import { isAuthenticated } from "../core/Menu";
 import { useHistory } from "react-router-dom";
 import DefaultProfile from "../images/avatar.png";
 function EditProfile(props) {
-  
   let history = useHistory();
   const [info, setInfo] = useState({
     id: "",
     name: "",
     email: "",
     password: "",
-    fileSize:0,
-    about:""
+    fileSize: 0,
+    about: "",
   });
   const [error, setError] = useState("");
-  const[loading,setLoading]=useState(false);
-  const [userData,setUserData] =useState(null);
+  const [loading, setLoading] = useState(false);
+  const [userData, setUserData] = useState(null);
 
   const isValid = () => {
-    const { name, email, password,fileSize} = info;
+    const { name, email, password, fileSize } = info;
 
     if (fileSize > 100000) {
       setError("File size should be less than 100kb");
@@ -60,8 +59,8 @@ function EditProfile(props) {
           name: res.name,
           email: res.email,
           password: "",
-          fileSize:0,
-          about:res.about
+          fileSize: 0,
+          about: res.about,
         });
       }
     } catch (error) {
@@ -72,14 +71,14 @@ function EditProfile(props) {
   const handleChange = (name, e) => {
     setError("");
     const val = name === "photo" ? e.target.files[0] : e.target.value;
-    let fileSize=0;
-    if(name === "photo"){
-     fileSize = e.target.files[0].size ;
+    let fileSize = 0;
+    if (name === "photo") {
+      fileSize = e.target.files[0].size;
     }
-    if(userData!=null){
-    userData.set(name,val);
-   } 
-    setInfo({ ...info, [name]: val ,fileSize});
+    if (userData != null) {
+      userData.set(name, val);
+    }
+    setInfo({ ...info, [name]: val, fileSize });
   };
   const clickSubmit = async (e) => {
     e.preventDefault();
@@ -95,7 +94,7 @@ function EditProfile(props) {
               Accept: "application/json",
               Authorization: `Bearer ${isAuthenticated().token}`,
             },
-            body: userData
+            body: userData,
           }
         );
         res = await res.json();
@@ -104,12 +103,11 @@ function EditProfile(props) {
         } else {
           if (typeof window !== "undefined") {
             if (localStorage.getItem("jwt")) {
-                let auth = JSON.parse(localStorage.getItem("jwt"));
-                auth.user = res;
-                localStorage.setItem("jwt", JSON.stringify(auth));
-                
+              let auth = JSON.parse(localStorage.getItem("jwt"));
+              auth.user = res;
+              localStorage.setItem("jwt", JSON.stringify(auth));
             }
-        }
+          }
           history.push(`/user/${info.id}`);
         }
       } catch (err) {
@@ -117,15 +115,15 @@ function EditProfile(props) {
       }
     }
   };
-   
+
   const photoUrl = info.id
-  ? `${
-      process.env.REACT_APP_API_URL
-    }/user/photo/${info.id}?${new Date().getTime()}`
-  : DefaultProfile;
+    ? `${process.env.REACT_APP_API_URL}/user/photo/${
+        info.id
+      }?${new Date().getTime()}`
+    : DefaultProfile;
 
   useEffect(() => {
-    setUserData(new FormData())
+    setUserData(new FormData());
     const userId = props.match.params.userId;
     getInfo(userId);
   }, []);
@@ -142,22 +140,26 @@ function EditProfile(props) {
       </div>
 
       {loading ? (
-          <div className="jumbotron text-center">
-            <h2>Loading...</h2>
-          </div>
-        ) : (
-          ""
-        )}
+        <div className="jumbotron text-center">
+          <h2>Loading...</h2>
+        </div>
+      ) : (
+        ""
+      )}
 
-        <img  style={{ height: "200px", width: "auto" }}
-          className="img-thumbnail" src={photoUrl}    onError={i => (i.target.src = `${DefaultProfile}`)}
-           alt={info.name}/>
+      <img
+        style={{ height: "200px", width: "auto" }}
+        className="img-thumbnail"
+        src={photoUrl}
+        onError={(i) => (i.target.src = `${DefaultProfile}`)}
+        alt={info.name}
+      />
 
       <form>
         <div className="form-group">
           <label className="text-muted">Profile Photo</label>
           <input
-            onChange={(e)=>handleChange("photo",e)}
+            onChange={(e) => handleChange("photo", e)}
             type="file"
             accept="image/*"
             className="form-control"
@@ -192,7 +194,6 @@ function EditProfile(props) {
             className="form-control"
             value={info.password}
           />
-          
         </div>
 
         <div className="form-group">
@@ -203,7 +204,6 @@ function EditProfile(props) {
             className="form-control"
             value={info.about}
           />
-          
         </div>
 
         <button
