@@ -38,10 +38,13 @@ function Users() {
                       users.map((user,i)=>(
                         <div className="card col-md-4" key={i}>
                         <div className="bg-image hover-overlay ripple" data-mdb-ripple-color="light" >
-                        <img
-                          src={Dimg}
-                          className="img-fluid" alt={user.name}   
-                        />
+                        
+                        <img  style={{ height: "200px", width: "auto" }}
+                        className="img-thumbnail" src={`${process.env.REACT_APP_API_URL}/user/photo/${
+                            user._id
+                        }`}
+                        onError={i => (i.target.src = `${Dimg}`)}
+                         alt={user.name}/>
                       </div>
                       <div className="card-body">
                         <h5 className="card-title">{user.name}</h5>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { isAuthenticated } from "../core/Menu";
 import { useHistory } from "react-router-dom";
-
+import DefaultProfile from "../images/avatar.png";
 function EditProfile(props) {
   
   let history = useHistory();
@@ -77,7 +77,6 @@ function EditProfile(props) {
     if(userData!=null){
     userData.set(name,val);
    } 
-   console.log(fileSize)
     setInfo({ ...info, [name]: val ,fileSize});
   };
   const clickSubmit = async (e) => {
@@ -108,6 +107,12 @@ function EditProfile(props) {
       }
     }
   };
+   
+  const photoUrl = info.id
+  ? `${
+      process.env.REACT_APP_API_URL
+    }/user/photo/${info.id}?${new Date().getTime()}`
+  : DefaultProfile;
 
   useEffect(() => {
     setUserData(new FormData())
@@ -133,6 +138,10 @@ function EditProfile(props) {
         ) : (
           ""
         )}
+
+        <img  style={{ height: "200px", width: "auto" }}
+          className="img-thumbnail" src={photoUrl}    onError={i => (i.target.src = `${DefaultProfile}`)}
+           alt={info.name}/>
 
       <form>
         <div className="form-group">

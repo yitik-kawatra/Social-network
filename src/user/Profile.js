@@ -19,11 +19,13 @@ function Profile(props) {
         },
       });
       res = await res.json();
+    
       if (res.error) {
         console.log("ERROR");
         setredirectToSignin(true);
       } else {
         setUser(res);
+       
       }
     } catch (error) {
       console.log("ERROR");
@@ -47,12 +49,20 @@ function Profile(props) {
     }
   }, [redirectToSignin]);
 
+  const photoUrl = user._id
+  ? `${
+      process.env.REACT_APP_API_URL
+    }/user/photo/${user._id}?${new Date().getTime()}`
+  : Dimg;
+    
   return (
     <div className="container">
       <div className="row">
         <h2 className="mt-5 mb-5">Profile</h2>
         <div className="col-md-6">
-          <img src={Dimg} className="img-fluid" alt={user.name} />
+        <img  style={{ height: "200px", width: "auto" }}
+          className="img-thumbnail" src={photoUrl}    onError={i => (i.target.src = `${Dimg}`)}
+          alt={user.name}/>
         </div>
 
         <div className="col-md-6">
