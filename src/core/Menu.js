@@ -81,6 +81,15 @@ function Menu({ history }) {
 
         {isAuthenticated() && (
           <>
+           <li className="nav-item">
+              <Link
+                style={isActive(history, "/findpeople")}
+                className="nav-link"
+                to="/findpeople"
+              >
+                Find People
+              </Link>
+            </li>
             <li className="nav-item">
               <Link
                 onClick={signot}

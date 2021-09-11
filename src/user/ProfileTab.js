@@ -2,7 +2,9 @@ import React from "react";
 import DefaultProfile from "../images/avatar.png";
 import { Link } from "react-router-dom";
 
-function ProfileTabs({ following, followers }) {
+function ProfileTab({ following, followers }) {
+
+
   return (
     <div>
       <div className="row">
@@ -68,4 +70,4 @@ function ProfileTabs({ following, followers }) {
   );
 }
 
-export default ProfileTabs;
+export default ProfileTab;

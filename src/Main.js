@@ -8,6 +8,7 @@ import Profile from './user/Profile'
 import Users from './user/Users';
 import EditProfile from './user/EditProfile';
 import PrivateRoute from './auth/PrivateRoute';
+import FindPeople from './user/FindPeople';
 
 
 function Main() {
@@ -20,6 +21,7 @@ function Main() {
                 <Route path="/signin" component={Signin} /> 
                 <PrivateRoute path="/user/edit/:userId" component={EditProfile}/>
                 <PrivateRoute path="/user/:userId" component={Profile} />
+                <PrivateRoute path="/findpeople" component={FindPeople} />
                 <Route path="/users" component={Users}/>
             </Switch>
         </div>

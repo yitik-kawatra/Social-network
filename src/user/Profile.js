@@ -4,7 +4,7 @@ import { Redirect, Link } from "react-router-dom";
 import Dimg from "../images/avatar.png";
 import DeleteUser from "./DeleteUser";
 import FollowProfileButton from "./FollowProfileButton";
-import ProfileTabs from "./ProfileTabs";
+import ProfileTab from "./ProfileTab";
 
 function Profile(props) {
   const [user, setUser] = useState({ following: [], followers: [] });
@@ -181,7 +181,7 @@ function Profile(props) {
 
             <hr />
             
-            <ProfileTabs followers={user.followers} following={user.following}/>
+            <ProfileTab followers={user.followers} following={user.following}/>
            
           </div>
         </div>
