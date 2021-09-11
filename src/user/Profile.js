@@ -19,13 +19,12 @@ function Profile(props) {
         },
       });
       res = await res.json();
-    
+
       if (res.error) {
         console.log("ERROR");
         setredirectToSignin(true);
       } else {
         setUser(res);
-       
       }
     } catch (error) {
       console.log("ERROR");
@@ -42,7 +41,7 @@ function Profile(props) {
     const userId = props.match.params.userId;
     getInfo(userId);
   }, [props.match.params.userId]);
-  
+
   useEffect(() => {
     if (redirectToSignin) {
       return <Redirect to="/signin" />;
@@ -50,19 +49,23 @@ function Profile(props) {
   }, [redirectToSignin]);
 
   const photoUrl = user._id
-  ? `${
-      process.env.REACT_APP_API_URL
-    }/user/photo/${user._id}?${new Date().getTime()}`
-  : Dimg;
-    
+    ? `${process.env.REACT_APP_API_URL}/user/photo/${
+        user._id
+      }?${new Date().getTime()}`
+    : Dimg;
+
   return (
     <div className="container">
       <div className="row">
         <h2 className="mt-5 mb-5">Profile</h2>
         <div className="col-md-6">
-        <img  style={{ height: "200px", width: "auto" }}
-          className="img-thumbnail" src={photoUrl}    onError={i => (i.target.src = `${Dimg}`)}
-          alt={user.name}/>
+          <img
+            style={{ height: "200px", width: "auto" }}
+            className="img-thumbnail"
+            src={photoUrl}
+            onError={(i) => (i.target.src = `${Dimg}`)}
+            alt={user.name}
+          />
         </div>
 
         <div className="col-md-6">
@@ -84,6 +87,13 @@ function Profile(props) {
               <DeleteUser userId={user._id} />
             </div>
           )}
+        </div>
+      </div>
+      <div className="row">
+        <div className="col md-12 mt-5 mb-5">
+          <hr />
+          <p className="lead">{user.about}</p>
+          <hr />
         </div>
       </div>
     </div>

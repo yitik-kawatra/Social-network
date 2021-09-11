@@ -11,6 +11,7 @@ function EditProfile(props) {
     email: "",
     password: "",
     fileSize:0,
+    about:""
   });
   const [error, setError] = useState("");
   const[loading,setLoading]=useState(false);
@@ -59,7 +60,8 @@ function EditProfile(props) {
           name: res.name,
           email: res.email,
           password: "",
-          fileSize:0
+          fileSize:0,
+          about:res.about
         });
       }
     } catch (error) {
@@ -100,6 +102,14 @@ function EditProfile(props) {
         if (res.error) {
           console.log(res.error);
         } else {
+          if (typeof window !== "undefined") {
+            if (localStorage.getItem("jwt")) {
+                let auth = JSON.parse(localStorage.getItem("jwt"));
+                auth.user = res;
+                localStorage.setItem("jwt", JSON.stringify(auth));
+                
+            }
+        }
           history.push(`/user/${info.id}`);
         }
       } catch (err) {
@@ -182,6 +192,18 @@ function EditProfile(props) {
             className="form-control"
             value={info.password}
           />
+          
+        </div>
+
+        <div className="form-group">
+          <label className="text-muted">About</label>
+          <textarea
+            onChange={(e) => handleChange("about", e)}
+            type="text"
+            className="form-control"
+            value={info.about}
+          />
+          
         </div>
 
         <button

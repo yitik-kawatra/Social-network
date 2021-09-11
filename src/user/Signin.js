@@ -18,7 +18,7 @@ function Signin() {
         const user={
             email,password
         }
-        console.log(user);   
+       
      try{
       let res= await fetch("http://localhost:5500/signin",{
             method:"POST",
@@ -29,7 +29,7 @@ function Signin() {
             body:JSON.stringify(user)
         })
         res= await res.json();
-        console.log(res);
+      
         if(res.error){
             setInfo({...info,error:res.error,loading:false})
         }else{
