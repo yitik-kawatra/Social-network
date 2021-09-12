@@ -5,17 +5,21 @@ import Dimg from "../images/avatar.png";
 import DeleteUser from "./DeleteUser";
 import FollowProfileButton from "./FollowProfileButton";
 import ProfileTab from "./ProfileTab";
+import { postsByUser } from "../post/apiPost";
 
 function Profile(props) {
   const [user, setUser] = useState({ following: [], followers: [] });
   const [following, setFollowing] = useState(false);
+  const [posts, setPosts] = useState([]);
   const [error, setError] = useState("");
   const [redirectToSignin, setredirectToSignin] = useState(false);
-  const [photoUrl,setPhotoUrl]=useState(user._id
-    ? `${process.env.REACT_APP_API_URL}/user/photo/${
-        user._id
-      }?${new Date().getTime()}`
-    : Dimg)
+  const [photoUrl, setPhotoUrl] = useState(
+    user._id
+      ? `${process.env.REACT_APP_API_URL}/user/photo/${
+          user._id
+        }?${new Date().getTime()}`
+      : Dimg
+  );
 
   const getInfo = async (userId) => {
     try {
@@ -33,7 +37,6 @@ function Profile(props) {
         console.log("ERROR");
         setredirectToSignin(true);
       } else {
-       
         let followin = checkFollow(res);
         setUser(res);
         setFollowing(followin);
@@ -46,9 +49,12 @@ function Profile(props) {
 
   const checkFollow = (user) => {
     const jwt = isAuthenticated();
-    const match = user.followers.length>0?user.followers.find((follower) => {
-      return follower._id === jwt.user._id;
-    }):false
+    const match =
+      user.followers.length > 0
+        ? user.followers.find((follower) => {
+            return follower._id === jwt.user._id;
+          })
+        : false;
     return match;
   };
 
@@ -58,7 +64,7 @@ function Profile(props) {
     if (callApi === "follow") {
       follow(userId, token, user._id)
         .then((data) => {
-          if(data.error){
+          if (data.error) {
             setError(data.error);
           }
           setUser(data);
@@ -77,122 +83,143 @@ function Profile(props) {
           setError(error);
         });
     }
-  }
+  };
 
-    const follow = async (userId, token, followId) => {
-      try {
-        let res=await fetch(`${process.env.REACT_APP_API_URL}/user/follow`, {
-          method: "PUT",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ userId, followId }),
-        })
-        return await res.json();
+  const follow = async (userId, token, followId) => {
+    try {
+      let res = await fetch(`${process.env.REACT_APP_API_URL}/user/follow`, {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ userId, followId }),
+      });
+      return await res.json();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const unfollow = async (userId, token, unfollowId) => {
+    try {
+      let res = await fetch(`${process.env.REACT_APP_API_URL}/user/unfollow`, {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ userId, unfollowId }),
+      });
+      return await res.json();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const loadPosts = (userId) => {
+    const token = isAuthenticated().token;
+    postsByUser(userId, token).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setPosts(data);
       }
-       catch (err) {
-        console.log(err);
-      }
-    };
+    });
+  };
 
-    const unfollow = async (userId, token, unfollowId) => {
-      try {
-        let res = await fetch(`${process.env.REACT_APP_API_URL}/user/unfollow`, {
-          method: "PUT",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ userId, unfollowId }),
-        });
-        return await res.json();
-      } catch(err){
-        console.log(err);
-      }
-    };
-    useEffect(() => {
-      const userId = props.match.params.userId;
-      getInfo(userId);
-    }, []);
+  useEffect(() => {
+    const userId = props.match.params.userId;
+    getInfo(userId);
+    loadPosts(user._id);
+  }, []);
 
-    useEffect(() => {
-      const userId = props.match.params.userId;
-      getInfo(userId);
-    }, [props.match.params.userId]);
+  useEffect(() => {
+    const userId = props.match.params.userId;
+    getInfo(userId);
+  }, [props.match.params.userId]);
 
-    useEffect(() => {
-      if (redirectToSignin) {
-        return <Redirect to="/signin" />;
-      }
-    }, [redirectToSignin]);
+  useEffect(() => {
+    if (redirectToSignin) {
+      return <Redirect to="/signin" />;
+    }
+  }, [redirectToSignin]);
 
-    useEffect(() => {
-      const photo=user._id
+  useEffect(() => {
+    const photo = user._id
       ? `${process.env.REACT_APP_API_URL}/user/photo/${
           user._id
         }?${new Date().getTime()}`
       : Dimg;
-      setPhotoUrl(photo);
-   
-    }, [user._id])
+    setPhotoUrl(photo);
+    loadPosts(user._id);
+  }, [user._id]);
 
-     
-    return (
-      <div className="container">
-        <div className="row">
-          <h2 className="mt-5 mb-5">Profile</h2>
-          <div className="col-md-6">
-            <img
-              style={{ height: "200px", width: "auto" }}
-              className="img-thumbnail"
-              src={photoUrl}
-              onError={(i) => (i.target.src = `${Dimg}`)}
-              alt={user.name}
-            />
-          </div>
-
-          <div className="col-md-6">
-            <div className="lead ml-5 mt-2">
-              <p>Hello {user.name}</p>
-              <p>Email : {user.email}</p>
-              <p>{`Joined ${new Date(user.createdAt).toDateString()}`}</p>
-            </div>
-
-            {isAuthenticated() && isAuthenticated().user._id === user._id ? (
-              <div className="d-inline-block">
-                <Link
-                  className="btn btn-raised btn-success me-5"
-                  to={`/user/edit/${user._id}`}
-                >
-                  Edit Profile
-                </Link>
-
-                <DeleteUser userId={user._id} />
-              </div>
-            ) : (
-              <FollowProfileButton
-                onButtonClick={clickFollowButton}
-                following={following}
-              />
-            )}
-
-            <hr />
-            
-            <ProfileTab followers={user.followers} following={user.following}/>
-           
-          </div>
+  return (
+    <div className="container">
+       <h2 className="mt-5 mb-5">Profile</h2>
+      <div className="row">
+       
+        <div className="col-md-4">
+          <img
+            style={{ height: "200px", width: "auto" }}
+            className="img-thumbnail"
+            src={photoUrl}
+            onError={(i) => (i.target.src = `${Dimg}`)}
+            alt={user.name}
+          />
         </div>
-        <div className="row">
-          <div className="col md-12 mt-5 mb-5">
-            <hr />
-            <p className="lead">{user.about}</p>
-            <hr />
+
+        <div className="col-md-8">
+          <div className="lead mt-2">
+            <p>Hello {user.name}</p>
+            <p>Email : {user.email}</p>
+            <p>{`Joined ${new Date(user.createdAt).toDateString()}`}</p>
           </div>
+
+          {isAuthenticated() && isAuthenticated().user._id === user._id ? (
+            <div className="d-inline-block">
+              <Link
+                className="btn btn-raised btn-info me-5"
+                to={`/post/create`}
+              >
+                Create Post
+              </Link>
+              <Link
+                className="btn btn-raised btn-success me-5"
+                to={`/user/edit/${user._id}`}
+              >
+                Edit Profile
+              </Link>
+
+              <DeleteUser userId={user._id} />
+            </div>
+          ) : (
+            <FollowProfileButton
+              onButtonClick={clickFollowButton}
+              following={following}
+            />
+          )}
+
+          <hr />
+
+          <ProfileTab
+            followers={user.followers}
+            following={user.following}
+            posts={posts}
+          />
         </div>
       </div>
-    );
-  };
+      <div className="row">
+        <div className="col md-12 mt-5 mb-5">
+          <hr />
+          <p className="lead">{user.about}</p>
+          <hr />
+        </div>
+      </div>
+    </div>
+  );
+}
 export default Profile;

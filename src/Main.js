@@ -19,13 +19,14 @@ function Main() {
             <Menu />
             <Switch>
                 <Route exact path="/" component={Home} />
+                <PrivateRoute path="/post/create" component={NewPost} />
                 <Route path="/post/:postId" component={SinglePost} />
                 <Route path="/signup" component={Signup} />
                 <Route path="/signin" component={Signin} /> 
                 <PrivateRoute path="/user/edit/:userId" component={EditProfile}/>
                 <PrivateRoute path="/user/:userId" component={Profile} />
                 <PrivateRoute path="/findpeople" component={FindPeople} />
-                <PrivateRoute path="/post/create" component={NewPost} />
+               
                 <Route path="/users" component={Users}/>
             </Switch>
         </div>

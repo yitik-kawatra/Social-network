@@ -35,3 +35,20 @@ export const singlePost = async postId => {
         return console.log(err);
     }
 };
+
+
+export const postsByUser = async (userId, token) => {
+    try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/posts/by/${userId}`, {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return await response.json();
+    } catch (err) {
+        return console.log(err);
+    }
+};

@@ -2,9 +2,7 @@ import React from "react";
 import DefaultProfile from "../images/avatar.png";
 import { Link } from "react-router-dom";
 
-function ProfileTab({ following, followers }) {
-
-
+function ProfileTab({ following, followers, posts }) {
   return (
     <div>
       <div className="row">
@@ -24,8 +22,8 @@ function ProfileTab({ following, followers }) {
                     height="30px"
                     width="30px"
                     src={`${process.env.REACT_APP_API_URL}/user/photo/${
-                        person._id
-                      }?${new Date().getTime()}`}
+                      person._id
+                    }?${new Date().getTime()}`}
                     onError={(i) => (i.target.src = `${DefaultProfile}`)}
                     alt={person.name}
                   />
@@ -59,6 +57,21 @@ function ProfileTab({ following, followers }) {
                   />
                   <div>
                     <p className="lead">{person.name}</p>
+                  </div>
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="col-md-4">
+          <h3 className="text-primary">{posts.length} Posts</h3>
+          <hr />
+          {posts.map((post, i) => (
+            <div key={i}>
+              <div>
+                <Link to={`/post/${post._id}`}>
+                  <div>
+                    <p className="lead">{post.title}</p>
                   </div>
                 </Link>
               </div>
