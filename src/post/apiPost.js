@@ -13,3 +13,14 @@ export const create = async (userId, token, post) => {
         return console.log(err);
     }
 };
+
+export const posts = async () => {
+    try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/posts`, {
+            method: "GET"
+        });
+        return await response.json();
+    } catch (err) {
+        return console.log(err);
+    }
+};

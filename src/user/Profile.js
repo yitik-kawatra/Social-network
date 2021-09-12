@@ -90,7 +90,7 @@ function Profile(props) {
           },
           body: JSON.stringify({ userId, followId }),
         })
-        return res.json();
+        return await res.json();
       }
        catch (err) {
         console.log(err);
@@ -108,7 +108,7 @@ function Profile(props) {
           },
           body: JSON.stringify({ userId, unfollowId }),
         });
-        return res.json();
+        return await res.json();
       } catch(err){
         console.log(err);
       }
