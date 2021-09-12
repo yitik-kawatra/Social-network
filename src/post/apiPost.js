@@ -24,3 +24,14 @@ export const posts = async () => {
         return console.log(err);
     }
 };
+
+export const singlePost = async postId => {
+    try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/post/${postId}`, {
+            method: "GET"
+        });
+        return await response.json();
+    } catch (err) {
+        return console.log(err);
+    }
+};
