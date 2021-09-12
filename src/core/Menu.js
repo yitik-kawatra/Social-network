@@ -92,20 +92,30 @@ function Menu({ history }) {
             </li>
             <li className="nav-item">
               <Link
-                onClick={signot}
-                style={isActive(history, "/signout")}
+                style={isActive(history, "/post/create")}
                 className="nav-link"
-                to="/signout"
+                to="/post/create"
               >
-                Sign Out
+               Create Post
               </Link>
             </li>
+            
             <li className="nav-item">
               <Link to={`/user/${isAuthenticated().user._id}`}
                 className="nav-link"
                 style={isActive(history, `/user/${isAuthenticated().user._id}`)}
               >
                 {`${isAuthenticated().user.name}'s profile`}
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                onClick={signot}
+                style={isActive(history, "/signout")}
+                className="nav-link"
+                to="/signout"
+              >
+                Sign Out
               </Link>
             </li>
           </>
