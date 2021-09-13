@@ -57,7 +57,7 @@ const deleteConfirmed = () => {
         </Link>
         {isAuthenticated().user && isAuthenticated().user._id === post.postedBy._id && (
                         <>
-                              <Link to={`/post/photo/${post._id}`} className="btn btn-raised btn-warning btn-sm me-5">
+                              <Link to={`/post/${post._id}`} className="btn btn-raised btn-warning btn-sm me-5">
                                 Update Post
                             </Link>
                             <button onClick={deleteConfirmed} className="btn btn-raised btn-danger btn-sm">
