@@ -6,7 +6,7 @@ import { isAuthenticated } from "../core/Menu";
 
 function SinglePost(props) {
   const [post, setPost] = useState("");
-  const [redirects,setRedirects]=useState({redirectToHome: false,redirectToSignin: false,})
+  const [redirects,setRedirects]=useState({redirectToHome: false,redirectToSignin: false})
 
 
   const deletePost = () => {
@@ -57,7 +57,7 @@ const deleteConfirmed = () => {
         </Link>
         {isAuthenticated().user && isAuthenticated().user._id === post.postedBy._id && (
                         <>
-                              <Link to={`/post/edit/${post._id}`} className="btn btn-raised btn-warning btn-sm me-5">
+                              <Link to={`/post/photo/${post._id}`} className="btn btn-raised btn-warning btn-sm me-5">
                                 Update Post
                             </Link>
                             <button onClick={deleteConfirmed} className="btn btn-raised btn-danger btn-sm">

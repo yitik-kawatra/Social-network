@@ -17,7 +17,7 @@ function NewPost() {
   const [postData, setPostData] = useState(null);
 
   const isValid = () => {
-    const { title, body, fileSize, loading, error } = post;
+    const { title, body, fileSize} = post;
     if (fileSize > 100000) {
       setPost({
         ...post,
