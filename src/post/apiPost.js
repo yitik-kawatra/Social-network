@@ -52,3 +52,19 @@ export const postsByUser = async (userId, token) => {
         return console.log(err);
     }
 };
+
+export const remove = async (postId, token) => {
+    try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/post/${postId}`, {
+            method: "DELETE",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return await response.json();
+    } catch (err) {
+        return console.log(err);
+    }
+};
