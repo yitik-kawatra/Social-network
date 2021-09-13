@@ -70,9 +70,9 @@ function EditPost(props) {
     }
   };
 
-  const imgSource=`${
+  const imgSource=post.id?`${
     process.env.REACT_APP_API_URL
-}/post/photo/${post.id}?${new Date().getTime()}`;
+}/post/photo/${post.id}?${new Date().getTime()}`:DefaultPost;
 
   useEffect(() => {
     setPostData(new FormData());
