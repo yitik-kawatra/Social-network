@@ -106,7 +106,7 @@ function EditPost(props) {
                     style={{ height: "200px", width: "auto" }}
                     className="img-thumbnail"
                     src={imgSource}
-                    onError={i => (i.target.src = `${DefaultPost}`)}
+                    // onError={i => (i.target.src = `${DefaultPost}`)}
                     alt={post.title}
                 />
       <form>
