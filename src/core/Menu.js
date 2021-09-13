@@ -55,7 +55,15 @@ function Menu({ history }) {
             Users
           </Link>
         </li>
-
+        <li className="nav-item">
+              <Link
+                style={isActive(history, "/post/create")}
+                className="nav-link"
+                to="/post/create"
+              >
+               Create Post
+              </Link>
+            </li>
         {!isAuthenticated() && (
           <>
             <li className="nav-item">
@@ -88,15 +96,6 @@ function Menu({ history }) {
                 to="/findpeople"
               >
                 Find People
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link
-                style={isActive(history, "/post/create")}
-                className="nav-link"
-                to="/post/create"
-              >
-               Create Post
               </Link>
             </li>
             
