@@ -25,7 +25,7 @@ function Signin() {
     };
 
     try {
-      let res = await fetch("http://localhost:5500/signin", {
+      let res = await fetch(`${process.env.REACT_APP_API_URL}/signin`, {
         method: "POST",
         headers: {
           Accept: "application/json",

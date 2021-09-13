@@ -17,7 +17,7 @@ export const  signout = async () => {
   if (typeof window !== "undefined") {
     localStorage.removeItem("jwt");
   }
-  let res = await fetch("http://localhost:5500/signout", {
+  let res = await fetch(`${process.env.REACT_APP_API_URL}/signout`, {
     method: "GET",
   });
   return res.json();
