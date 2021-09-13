@@ -1,8 +1,9 @@
-import React from "react";
+import React  from "react";
 import DefaultProfile from "../images/avatar.png";
 import { Link } from "react-router-dom";
 
-function ProfileTab({ following, followers, posts }) {
+function ProfileTab({ following, followers, posts,loading }) {
+ 
   return (
     <div>
       <div className="row">
@@ -64,6 +65,13 @@ function ProfileTab({ following, followers, posts }) {
           ))}
         </div>
         <div className="col-md-4">
+        {
+        loading?(<div className="jumbotron text-center">
+          <h2>Loading...</h2>
+        </div>
+        ):  
+        (
+          <>
           <h3 className="text-primary">{posts.length} Posts</h3>
           <hr />
           {posts.map((post, i) => (
@@ -77,8 +85,12 @@ function ProfileTab({ following, followers, posts }) {
               </div>
             </div>
           ))}
-        </div>
+          </>)
+        
+          }
+        </div>  
       </div>
+          
     </div>
   );
 }

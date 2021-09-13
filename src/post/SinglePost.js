@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { singlePost } from "./apiPost";
 import DefaultPost from "../images/tree.webp";
 import { Link } from "react-router-dom";
+import { isAuthenticated } from "../core/Menu";
 
 function SinglePost(props) {
   const [post, setPost] = useState("");
@@ -30,9 +31,19 @@ function SinglePost(props) {
           Posted by <Link to={`${posterId}`}>{posterName} </Link>
           on {new Date(post.created).toDateString()}
         </p>
-        <Link to={`/`} className="btn btn-raised btn-primary btn-sm">
+        <Link to="/" className="btn btn-raised btn-primary btn-sm me-5">
           Back to posts
         </Link>
+        {isAuthenticated().user && isAuthenticated().user._id === post.postedBy._id && (
+                        <>
+                            <Link  className="btn btn-raised btn-warning btn-sm me-5">
+                                Update Post
+                            </Link>
+                            <button  className="btn btn-raised btn-danger btn-sm">
+                                Delete Post
+                            </button>
+                        </>
+                    )}
       </div>
     );
   };

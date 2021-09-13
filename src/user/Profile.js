@@ -11,6 +11,7 @@ function Profile(props) {
   const [user, setUser] = useState({ following: [], followers: [] });
   const [following, setFollowing] = useState(false);
   const [posts, setPosts] = useState([]);
+  const [loading,setLoading]=useState(false);
   const [error, setError] = useState("");
   const [redirectToSignin, setredirectToSignin] = useState(false);
   const [photoUrl, setPhotoUrl] = useState(
@@ -120,14 +121,19 @@ function Profile(props) {
   };
 
   const loadPosts = (userId) => {
+    
     const token = isAuthenticated().token;
     postsByUser(userId, token).then((data) => {
+      setLoading(true);
       if (data.error) {
         console.log(data.error);
       } else {
         setPosts(data);
+        setLoading(false);
       }
-    });
+      
+    })
+    
   };
 
   useEffect(() => {
@@ -156,7 +162,6 @@ function Profile(props) {
     setPhotoUrl(photo);
     loadPosts(user._id);
   }, [user._id]);
-
   return (
     <div className="container">
        <h2 className="mt-5 mb-5">Profile</h2>
@@ -209,6 +214,7 @@ function Profile(props) {
             followers={user.followers}
             following={user.following}
             posts={posts}
+            loading={loading}
           />
         </div>
       </div>
