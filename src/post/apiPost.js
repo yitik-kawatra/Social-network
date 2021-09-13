@@ -68,3 +68,19 @@ export const remove = async (postId, token) => {
         return console.log(err);
     }
 };
+
+export const update = async (postId, token, post) => {
+    try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/post/${postId}`, {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`
+            },
+            body: post
+        });
+        return await response.json();
+    } catch (err) {
+        return console.log(err);
+    }
+};

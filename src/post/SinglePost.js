@@ -24,7 +24,7 @@ function SinglePost(props) {
 const deleteConfirmed = () => {
   let answer = window.confirm('Are you sure you want to delete your post?');
   if (answer) {
-      this.deletePost();
+    deletePost();
   }
 };
 
@@ -57,7 +57,7 @@ const deleteConfirmed = () => {
         </Link>
         {isAuthenticated().user && isAuthenticated().user._id === post.postedBy._id && (
                         <>
-                            <Link  className="btn btn-raised btn-warning btn-sm me-5">
+                              <Link to={`/post/edit/${post._id}`} className="btn btn-raised btn-warning btn-sm me-5">
                                 Update Post
                             </Link>
                             <button onClick={deleteConfirmed} className="btn btn-raised btn-danger btn-sm">

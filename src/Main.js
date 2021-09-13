@@ -21,8 +21,8 @@ function Main() {
             <Switch>
                 <Route exact path="/" component={Home} />
                 <PrivateRoute path="/post/create" component={NewPost} />
-                <Route path="/post/:postId" component={SinglePost} />
                 <Route path="/post/edit/:postId" component={EditPost} />
+                <Route path="/post/:postId" component={SinglePost} />
                 <Route path="/signup" component={Signup} />
                 <Route path="/signin" component={Signin} /> 
                 <PrivateRoute path="/user/edit/:userId" component={EditProfile}/>
