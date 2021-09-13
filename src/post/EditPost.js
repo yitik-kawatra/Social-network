@@ -9,7 +9,7 @@ function EditPost(props) {
     id: "",
     title: "",
     body: "",
-    fileSize: 0,
+    fileSize: 0
   });
   const [postData, setPostData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -70,9 +70,11 @@ function EditPost(props) {
     }
   };
 
-  const imgSource=post.id?`${
-    process.env.REACT_APP_API_URL
-}/post/photo/${post.id}?${new Date().getTime()}`:DefaultPost;
+  const imgSource = post.id
+    ? `${process.env.REACT_APP_API_URL}/post/photo/${
+        post.id
+      }?${new Date().getTime()}`
+    : DefaultPost;
 
   useEffect(() => {
     setPostData(new FormData());
@@ -89,26 +91,28 @@ function EditPost(props) {
       <h2 className="mt-5 mb-5">{post.title}</h2>
 
       <div
-                    className="alert alert-danger"
-                    style={{ display: error ? "" : "none" }}
-                >
-                    {error}
-                </div>
-                {loading ? (
-                    <div className="jumbotron text-center">
-                        <h2>Loading...</h2>
-                    </div>
-                ) : (
-                    ""
-                )}
+        className="alert alert-danger"
+        style={{ display: error ? "" : "none" }}
+      >
+        {error}
+      </div>
+      {loading ? (
+        <div className="jumbotron text-center">
+          <h2>Loading...</h2>
+        </div>
+      ) : (
+        ""
+      )}
 
-                <img
-                    style={{ height: "200px", width: "auto" }}
-                    className="img-thumbnail"
-                    src={imgSource}
-                    onError={i => (i.target.src = `${DefaultPost}`)}
-                    alt={post.title}
-                />
+      <img
+        style={{ height: "200px", width: "auto" }}
+        className="img-thumbnail"
+        src={`${process.env.REACT_APP_API_URL}/post/photo/${
+          post.id
+        }?${new Date().getTime()}`}
+        onError={(i) => (i.target.src = `${DefaultPost}`)}
+        alt={post.title}
+      />
       <form>
         <div className="form-group">
           <label className="text-muted">Post Photo</label>
