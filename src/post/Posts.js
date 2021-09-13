@@ -5,13 +5,17 @@ import DefaultPost from "../images/tree.webp";
 
 function Posts() {
   const [posts, setPosts] = useState([]);
+  const [loading,setLoading]=useState(false);
 
   useEffect(() => {
+    setLoading(true);
     list().then((data) => {
       if (data.error) {
         console.log(data.error);
+        setLoading(false);
       } else {
         setPosts([...data]);
+        setLoading(false);
       }
     });
   }, []);
@@ -19,7 +23,7 @@ function Posts() {
   return (
     <div className="container">
       <h2 className="mt-5 mb-5">
-        {!posts.length ? "Loading..." : "Recent Posts"}
+        {loading ? "Loading..." : "Recent Posts"}
       </h2>
       <div className="row">
         {posts.map((post, i) => {
